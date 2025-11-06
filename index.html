@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Python Dasar • Bab: Perulangan for (Program SI — Absen Ganjil)</title>
+  <meta name="description" content="Materi pemrograman dasar Python: perulangan for, studi kasus petani & bilangan ganjil, contoh kode, latihan, dan video pembelajaran." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:  245 246 250; /* #f5f6fa */
+      --ink: 18 23 35;
+      --muted: 105 115 134;
+      --brand: 66 133 244; /* biru lembut */
+      --glass: 255 255 255;
+      --accent: 255 179 71; /* keemasan */
+      --ok: 34 197 94; /* hijau */
+      --warn: 234 179 8; /* kuning */
+      --err: 239 68 68; /* merah */
+    }
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      color:rgb(var(--ink)); background:linear-gradient(135deg,#eef2ff 0%, #f7f7fb 30%, #fafafa 100%);
+      background-attachment: fixed;
+    }
+    .container{ max-width:1100px; margin-inline:auto; padding:28px 18px; }
+
+    /* Header */
+    header{
+      display:grid; gap:14px; align-items:center;
+      grid-template-columns: 64px 1fr auto;
+      padding:14px; border-radius:24px;
+      background: rgba(var(--glass),0.6);
+      box-shadow: 0 10px 30px rgba(18,23,35,.08);
+      backdrop-filter: blur(14px);
+    }
+    .logo{
+      width:64px; height:64px; border-radius:18px;
+      background: linear-gradient(135deg, rgba(var(--brand),.25), rgba(var(--accent),.25));
+      display:grid; place-items:center; font-weight:800; font-family:Poppins,Inter;
+      color:rgb(var(--brand));
+    }
+    h1{ font-family:Poppins,Inter; font-size:clamp(20px,3vw,30px); margin:0 }
+    .badge{ font-size:12px; padding:6px 10px; border-radius:999px; background:rgba(var(--brand),.12); color:rgb(var(--brand)); font-weight:600 }
+
+    /* Bento grid */
+    .grid{ display:grid; gap:16px; grid-template-columns: repeat(12, 1fr); margin-top:18px }
+    .card{
+      grid-column: span 12;
+      background: rgba(var(--glass),0.6);
+      border:1px solid rgba(18,23,35,.06);
+      border-radius:22px; padding:18px; position:relative;
+      box-shadow: 0 12px 40px rgba(18,23,35,.08);
+      backdrop-filter: blur(12px);
+    }
+    .card h2{ font-family:Poppins,Inter; margin:4px 0 10px; font-size:clamp(18px,2.2vw,22px) }
+    .card p{ color:rgb(var(--muted)); line-height:1.6 }
+    @media (min-width:800px){
+      .span-7{ grid-column: span 7; }
+      .span-5{ grid-column: span 5; }
+      .span-6{ grid-column: span 6; }
+      .span-4{ grid-column: span 4; }
+    }
+
+    /* Video */
+    .video-wrap{ aspect-ratio: 16/9; border-radius:18px; overflow:hidden; border:1px solid rgba(18,23,35,.06) }
+    .video-wrap iframe{ width:100%; height:100%; display:block }
+
+    /* Code */
+    pre{ margin:10px 0 0; }
+    code{ display:block; padding:14px; border-radius:14px; overflow:auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:13.5px; line-height:1.55; background:linear-gradient(180deg,#0b1220, #0f1930); color:#e9f1ff; border:1px solid rgba(255,255,255,.06) }
+    .codebar{ display:flex; gap:8px; align-items:center; justify-content:space-between; margin-top:10px }
+    .pill{ font-size:12px; padding:6px 10px; border-radius:999px; background:rgba(var(--ink),.06); color:rgb(var(--muted)); }
+    .btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid rgba(18,23,35,.1); background:white; cursor:pointer; font-weight:600 }
+    .btn:active{ transform: translateY(1px) }
+
+    /* List */
+    ul{ margin:8px 0 0 18px; color:rgb(var(--muted)); }
+
+    /* Accordion */
+    details{ margin-top:8px; border:1px solid rgba(18,23,35,.08); border-radius:14px; background:white }
+    summary{ list-style:none; cursor:pointer; padding:12px 14px; font-weight:600 }
+    summary::-webkit-details-marker{ display:none }
+    details[open]{ box-shadow: 0 8px 26px rgba(18,23,35,.08) }
+    .solusi{ padding:0 14px 14px }
+    .muted{ color:rgb(var(--muted)) }
+
+    /* Footer */
+    footer{ text-align:center; color:rgb(var(--muted)); padding:24px 10px }
+    .chip{ display:inline-block; padding:8px 12px; border-radius:999px; background:rgba(var(--brand),.12); color:rgb(var(--brand)); font-weight:600 }
+
+    /* Responsive tweaks */
+    .stack{ display:flex; flex-direction:column; gap:8px }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">Py</div>
+      <div class="stack">
+        <h1>Python Dasar • Bab: Perulangan <em>for</em></h1>
+        $1
+          <span class=\"badge\">Materi: Perulangan for</span>
+          <span class=\"badge\" style=\"background:rgba(var(--accent),.16); color:rgb(var(--accent))\">Level: Pemula</span>
+          <span class=\"badge\" style=\"background:rgba(34,197,94,.14); color:rgb(var(--ok))\">Program: SI</span>
+          <span class=\"badge\" style=\"background:rgba(239,68,68,.12); color:rgb(var(--err))\">Khusus: Absen Ganjil</span>
+        $2
+      </div>
+      <a class="btn" href="#latihan">Mulai Latihan</a>
+    </header>
+
+    <section class="grid">
+      <!-- Video bento card -->
+      <article class=\"card span-7\">
+        <h2>📺 Video Pembelajaran</h2>
+        <p class=\"muted\">Ini adalah video untuk <strong>Bab: Perulangan for</strong>. Bab lain menyusul ketika video sudah siap.</p>
+        <div class=\"video-wrap\">
+          <iframe src=\"https://embed.screenapp.io/app/v/e3VmK--XUK?embed=true\" width=\"100%\" height=\"960\" frameborder=\"0\" allowfullscreen></iframe>
+        </div>
+      </article>
+
+      <!-- Daftar Bab -->
+      <article class=\"card span-5\">
+        <h2>📚 Daftar Bab (Roadmap)</h2>
+        <ul>
+          <li><strong>Bab 1:</strong> Variabel & Input ✅</li>
+          <li><strong>Bab 2:</strong> Percabangan <code>if/elif/else</code> ✅</li>
+          <li><strong>Bab 3:</strong> <u>Perulangan <code>for</code> (saat ini)</u> ✅</li>
+          <li><strong>Bab 4:</strong> Perulangan <code>while</code> ✅</li>
+          <li><strong>Bab 5:</strong> List, Tuple, & Loop ✅</li>
+        </ul>
+      </article>
+
+      <!-- Tujuan belajar -->
+
+      <!-- Bab 1 -->
+      <article class=\"card span-12\">
+        <h2>🟦 Bab 1 — Variabel & Input</h2>
+        <p>Pada bab ini mahasiswa mempelajari dasar pemrograman Python: variabel, tipe data, dan cara menerima input dari pengguna.</p>
+        <pre><code># Variabel dasar
+nama = "Andi"
+umur = 20
+print("Nama:", nama)
+print("Umur:", umur)
+
+# Input dari pengguna
+nama = input("Masukkan nama Anda: ")
+umur = int(input("Masukkan umur: "))
+print(f"Halo {nama}, umur Anda {umur} tahun.")</code></pre>
+        <ul>
+          <li>Variabel tidak membutuhkan deklarasi tipe.</li>
+          <li>Semua input berupa <em>string</em> → gunakan <code>int()</code> atau <code>float()</code> jika perlu angka.</li>
+        </ul>
+      </article>
+
+      <!-- Bab 2 -->
+      <article class=\"card span-12\">
+        <h2>🟩 Bab 2 — Percabangan <code>if/elif/else</code></h2>
+        <p>Percabangan digunakan untuk membuat program yang dapat mengambil keputusan.</p>
+        <pre><code># Percabangan dasar
+nilai = int(input("Nilai: "))
+if nilai >= 85:
+    print("A - Sangat baik")
+elif nilai >= 70:
+    print("B - Baik")
+elif nilai >= 60:
+    print("C - Cukup")
+else:
+    print("D - Kurang")</code></pre>
+        <ul>
+          <li>Gunakan <code>if</code> untuk kondisi pertama.</li>
+          <li><code>elif</code> untuk kondisi tambahan.</li>
+          <li><code>else</code> untuk kondisi selain di atas.</li>
+        </ul>
+      </article>
+
+      <!-- Bab 4 -->
+      <article class=\"card span-12\">
+        <h2>🟨 Bab 4 — Perulangan <code>while</code></h2>
+        <p><code>while</code> digunakan ketika jumlah perulangan tidak diketahui sejak awal.</p>
+        <pre><code># Contoh while: input harus lebih dari 0
+angka = int(input("Masukkan angka (>0): "))
+while angka <= 0:
+    print("Angka harus > 0!")
+    angka = int(input("Masukkan angka (>0): "))
+print("Terima kasih, input valid.")</code></pre>
+        <ul>
+          <li>Cocok untuk validasi input.</li>
+          <li>Hati‑hati loop tak berujung → pastikan kondisi berubah.</li>
+        </ul>
+      </article>
+
+      <!-- Bab 5 -->
+      <article class=\"card span-12\">
+        <h2>🟪 Bab 5 — List, Tuple, & Loop</h2>
+        <p>List adalah struktur data yang dapat menyimpan banyak nilai, dapat diubah. Tuple tidak dapat diubah.</p>
+        <pre><code># List
+buah = ["apel", "jeruk", "mangga"]
+print(buah[0])
+buah.append("durian")
+
+# Looping listor item in buah:
+    print("Buah:", item)
+
+# Tuple
+angka = (1, 2, 3, 4)
+print(angka[1])</code></pre>
+        <ul>
+          <li><strong>List:</strong> dapat diubah (mutable).</li>
+          <li><strong>Tuple:</strong> tidak dapat diubah (immutable).</li>
+          <li>Bekerja sangat baik dengan perulangan <code>for</code>.</li>
+        </ul>
+      </article>
+
+      <!-- Tujuan belajar -->
+      <article class="card span-5">
+        <h2>🎯 Tujuan Belajar</h2>
+        <ul>
+          <li>Memahami sintaks dasar <code>for</code> dan <code>range()</code>.</li>
+          <li>Menggunakan <code>for</code> untuk kasus dunia nyata (petani).</li>
+          <li>Mencetak deret bilangan ganjil dengan variasi langkah.</li>
+          <li>Menulis solusi yang rapi, diberi komentar, dan mudah diuji.</li>
+        </ul>
+        <div style="margin-top:12px">
+          <span class="chip">💡 Tip: Mulai dari kasus kecil → generalkan.</span>
+        </div>
+      </article>
+
+      <!-- Teori ringkas -->
+      <article class="card span-6">
+        <h2>📘 Teori Singkat: <code>for</code> & <code>range()</code></h2>
+        <p>Dalam Python, <code>for</code> dipakai untuk mengulang blok kode. Fungsi <code>range(start, stop, step)</code> menghasilkan urutan angka dari <em>start</em> (inklusif) ke <em>stop</em> (eksklusif) dengan kelipatan <em>step</em>.</p>
+        <div class="codebar">
+          <span class="pill">Sintaks</span>
+          <button class="btn" data-copy="#code-range">Salin</button>
+        </div>
+        <pre><code id="code-range"># range(start, stop, step)
+for i in range(1, 10, 2):  # 1, 3, 5, 7, 9
+    print(i)</code></pre>
+      </article>
+
+      <!-- Studi kasus petani -->
+      <article class="card span-6" id="petani">
+        <h2>🌾 Studi Kasus: Petani & Produktivitas</h2>
+        <p>
+          Seorang petani mengerjakan 1000 m² sawah setiap hari dengan total waktu kerja 5 jam.
+          Dengan <code>for</code>, tampilkan progres tiap jam dan total luas yang terselesaikan.
+        </p>
+        <div class="codebar">
+          <span class="pill">Contoh solusi</span>
+          <button class="btn" data-copy="#code-petani">Salin</button>
+        </div>
+        <pre><code id="code-petani">total_per_hari = 1000  # m²
+jam_kerja = 5
+per_jam = total_per_hari // jam_kerja  # 200 m² per jam
+
+print(f"Target per jam: {per_jam} m²")
+progres = 0
+for jam in range(1, jam_kerja + 1):
+    progres += per_jam
+    print(f"Jam {jam}: tambah {per_jam} m² → total {progres} m²")
+
+print(f"Selesai: {progres} m² / {total_per_hari} m²")</code></pre>
+        <details>
+          <summary>Kenapa pakai <em>integer division</em> <code>//</code>?</summary>
+          <div class="solusi">
+            <p>Supaya nilai per jam bulat (<code>200</code>). Jika pembagian tidak genap, bisa pakai pembulatan dua cara: (1) gunakan float biasa, atau (2) distribusikan sisa di jam terakhir.</p>
+          </div>
+        </details>
+      </article>
+
+      <!-- Ganjil -->
+      <article class=\"card span-6\">
+        <h2>📌 Instruksi Khusus: Absen Ganjil (Program SI)</h2>
+        <p class=\"muted\">Bab ini ditujukan <strong>khusus untuk mahasiswa Sistem Informasi dengan nomor absen ganjil</strong>. Jika nomor absensimu genap, silakan menunggu bab berikutnya atau konsultasikan ke dosen asisten.</p>
+        <ul>
+          <li>Kerjakan studi kasus <strong>Petani & Produktivitas</strong> di bawah.</li>
+          <li>Buat <em>script</em> yang menerima input dinamis dan menampilkan progres tiap jam.</li>
+          <li>Tambahkan validasi: jika input jam kerja ≤ 0, tampilkan pesan error yang jelas.</li>
+        </ul>
+        <div class=\"codebar\">
+          <span class=\"pill\">Contoh validasi</span>
+          <button class=\"btn\" data-copy=\"#code-validasi\">Salin</button>
+        </div>
+        <pre><code id=\"code-validasi\">T = int(input("Total m²/hari: "))
+J = int(input("Jam kerja: "))
+if J <= 0:
+    print("Jam kerja harus > 0")
+else:
+    per_jam = T // J
+    sisa = T % J
+    progres = 0
+    for jam in range(1, J + 1):
+        tambah = per_jam + (sisa if jam == J else 0)
+        progres += tambah
+        print(f"Jam {jam}: +{tambah} m² → total {progres} m²")</code></pre>
+      </article>
+
+      <!-- Latihan -->
+      <article class=\"card span-6\" id=\"latihan\">
+        <h2>🧪 Latihan Terarah (Absen Ganjil)</h2>
+        <ol>
+          <li><strong>Petani Dinamis:</strong> Minta input <em>total_per_hari</em> dan <em>jam_kerja</em>. Tampilkan progres tiap jam. Jika ada sisa, tambahkan di jam terakhir. Sertakan validasi.</li>
+          <li><strong>Filter Absensi:</strong> Minta input <em>nomor_absen</em>. Jika ganjil, lanjutkan latihan; jika genap, cetak pesan <em>“Bab ini khusus absen ganjil.”</em></li>
+        </ol>
+        <details>
+          <summary>Lihat solusi referensi</summary>
+          <div class=\"solusi\">
+            <pre><code># 1) Petani Dinamis + Validasi
+try:
+    T = int(input("Total m²/hari: "))
+    J = int(input("Jam kerja: "))
+    if J <= 0:
+        print("Jam kerja harus > 0")
+    else:
+        per_jam = T // J
+        sisa = T % J
+        progres = 0
+        for jam in range(1, J + 1):
+            tambah = per_jam + (sisa if jam == J else 0)
+            progres += tambah
+            print(f"Jam {jam}: +{tambah} m² → total {progres} m²")
+except ValueError:
+    print("Input harus berupa angka bulat.")
+
+# 2) Filter Absensi
+try:
+    absen = int(input("Nomor absen: "))
+    if absen % 2 == 1:
+        print("Lanjutkan: Anda termasuk absen ganjil.")
+    else:
+        print("Bab ini khusus absen ganjil. Hubungi asisten untuk materi lain.")
+except ValueError:
+    print("Nomor absen harus angka bulat.")</code></pre>
+          </div>
+        </details>
+      </article>
+
+      <!-- Checklist & Common mistakes -->
+      <article class="card span-6">
+        <h2>✅ Checklist & Kesalahan Umum</h2>
+        <ul>
+          <li>Gunakan <code>range(1, J+1)</code> agar jam terakhir ikut terhitung.</li>
+          <li>Hati-hati <em>off-by-one</em> saat memakai <code>stop</code> (bersifat eksklusif).</li>
+          <li>Format output konsisten, gunakan <code>f-string</code> untuk keterbacaan.</li>
+          <li>Untuk deret ganjil, lebih hemat pakai <code>step=2</code> daripada <code>if</code> di dalam loop.</li>
+        </ul>
+      </article>
+
+      <!-- Referensi cepat -->
+      <article class="card span-12">
+        <h2>🧭 Referensi Cepat</h2>
+        <div class="grid">
+          <div class="card span-4">
+            <h3 class="muted" style="margin:0 0 6px">Template loop</h3>
+            <pre><code>for i in range(start, stop, step):
+    # blok kode
+    ...</code></pre>
+          </div>
+          <div class="card span-4">
+            <h3 class="muted" style="margin:0 0 6px">Akses indeks</h3>
+            <pre><code>data = ["a","b","c"]
+for idx in range(len(data)):
+    print(idx, data[idx])</code></pre>
+          </div>
+          <div class="card span-4">
+            <h3 class="muted" style="margin:0 0 6px">Enumerate data</h3>
+            <pre><code>for idx, val in enumerate([10,20,30], start=1):
+    print(idx, val)</code></pre>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      Dibuat oleh Rama Agung Supriyadi dengan style <em>glassmorphism</em> & bento UI. — <strong>Python Dasar</strong>
+    </footer>
+  </div>
+
+  <script>
+    // tombol salin
+    const copyBtns = document.querySelectorAll('[data-copy]');
+    copyBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sel = btn.getAttribute('data-copy');
+        const el = document.querySelector(sel);
+        if(!el) return;
+        const text = el.innerText.trim();
+        navigator.clipboard.writeText(text).then(() => {
+          const old = btn.innerHTML;
+          btn.innerHTML = '✓ Disalin';
+          setTimeout(()=> btn.innerHTML = old, 1200);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
