@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Python Dasar • Bab: Perulangan for (Program SI — Absen Ganjil)</title>
-  <meta name="description" content="Materi pemrograman dasar Python: perulangan for, studi kasus petani & bilangan ganjil, contoh kode, latihan, dan video pembelajaran." />
+  <title>Python Dasar</title>
+  <meta name="description" content="Pemrogaman Dasar Python" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
@@ -67,8 +67,9 @@
     }
 
     /* Video */
-    .video-wrap{ aspect-ratio: 16/9; border-radius:18px; overflow:hidden; border:1px solid rgba(18,23,35,.06) }
-    .video-wrap iframe{ width:100%; height:100%; display:block }
+    .video-wrap{ position:relative; width:100%; border-radius:18px; overflow:hidden; border:1px solid rgba(18,23,35,.06); background:#000; }
+    .video-wrap::before{ content:""; display:block; padding-top:56.25%; }
+    .video-wrap > iframe{ position:absolute; inset:0; width:100%; height:100%; display:block }
 
     /* Code */
     pre{ margin:10px 0 0; }
@@ -95,6 +96,14 @@
 
     /* Responsive tweaks */
     .stack{ display:flex; flex-direction:column; gap:8px }
+      /* Perbaikan layout umum */
+    img, iframe{ max-width:100%; height:auto }
+    .card{ overflow:hidden }
+    pre, code{ max-width:100%; white-space:pre; overflow:auto }
+    @media (max-width:480px){
+      .grid{ grid-template-columns: 1fr; }
+      .span-7,.span-5,.span-6,.span-4,.span-12{ grid-column: span 1; }
+    }
   </style>
 </head>
 <body>
@@ -119,7 +128,12 @@
         <h2>📺 Video Pembelajaran</h2>
         <p class=\"muted\">Ini adalah video untuk <strong>Bab: Perulangan for</strong>. Bab lain menyusul ketika video sudah siap.</p>
         <div class=\"video-wrap\">
-          <iframe src=\"https://embed.screenapp.io/app/v/e3VmK--XUK?embed=true\" width=\"100%\" height=\"960\" frameborder=\"0\" allowfullscreen></iframe>
+          <iframe src="https://embed.screenapp.io/app/v/e3VmK--XUK?embed=true"
+            title="Video Pembelajaran: Perulangan for"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            allowfullscreen></iframe>
         </div>
       </article>
 
@@ -377,7 +391,7 @@ for idx in range(len(data)):
     </section>
 
     <footer>
-      Dibuat oleh Rama Agung Supriyadi dengan style <em>glassmorphism</em> & bento UI. — <strong>Python Dasar</strong>
+      Dibuat oleh Rama Agung Supriyadi dengan gaya <em>glassmorphism</em> & bento UI. — <strong>Python Dasar</strong>
     </footer>
   </div>
 
